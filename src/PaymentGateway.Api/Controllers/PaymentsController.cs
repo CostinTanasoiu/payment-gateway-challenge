@@ -31,10 +31,15 @@ public class PaymentsController : Controller
         _acquiringBankService = acquiringBankService;
     }
 
+    /// <summary>
+    /// Retrieves the details of a previously processed card payment.
+    /// </summary>
+    /// <param name="id">The payment ID</param>
+    /// <returns>Payment details</returns>
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(PostPaymentResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PostPaymentResponse?>> GetPaymentAsync(Guid id)
+    public async Task<ActionResult<PaymentResponse>> GetPaymentAsync(Guid id)
     {
         var payment = _paymentsRepository.Get(id);
         if (payment == null)
@@ -49,13 +54,13 @@ public class PaymentsController : Controller
     /// <summary>
     /// Processes a new card payment.
     /// </summary>
-    /// <param name="request">The payment request model.</param>
-    /// <returns>201 Created if successful</returns>
+    /// <param name="request">The payment request model</param>
+    /// <returns>Payment details</returns>
     [HttpPost]
-    [ProducesResponseType(typeof(PostPaymentResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(PostPaymentFailedValidationResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public async Task<ActionResult<PostPaymentResponse>> PostPaymentAsync(PostPaymentRequest request)
+    public async Task<ActionResult<PaymentResponse>> PostPaymentAsync(PostPaymentRequest request)
     {
         var validationResult = await _requestValidator.ValidateAsync(request);
         if (!validationResult.IsValid)
@@ -71,7 +76,7 @@ public class PaymentsController : Controller
         {
             var bankResponse = await _acquiringBankService.ProcessPaymentAsync(bankRequest);
 
-            var paymentResponse = new PostPaymentResponse
+            var paymentResponse = new PaymentResponse
             {
                 Id = Guid.NewGuid(),
                 Amount = request.Amount,

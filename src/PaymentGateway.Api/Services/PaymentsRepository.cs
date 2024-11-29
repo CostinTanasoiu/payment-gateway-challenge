@@ -6,20 +6,20 @@ namespace PaymentGateway.Api.Services;
 
 public interface IPaymentsRepository
 {
-    void Add(PostPaymentResponse payment);
-    PostPaymentResponse Get(Guid id);
+    void Add(PaymentResponse payment);
+    PaymentResponse Get(Guid id);
 }
 
 public class PaymentsRepository : IPaymentsRepository
 {
-    public List<PostPaymentResponse> Payments = new();
+    public List<PaymentResponse> Payments = new();
 
-    public void Add(PostPaymentResponse payment)
+    public void Add(PaymentResponse payment)
     {
         Payments.Add(payment);
     }
 
-    public PostPaymentResponse Get(Guid id)
+    public PaymentResponse Get(Guid id)
     {
         return Payments.FirstOrDefault(p => p.Id == id);
     }

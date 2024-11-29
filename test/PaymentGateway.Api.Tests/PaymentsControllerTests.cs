@@ -66,7 +66,7 @@ public class PaymentsControllerTests
     public async Task RetrievesAPaymentSuccessfully()
     {
         // Arrange
-        var payment = new PostPaymentResponse
+        var payment = new PaymentResponse
         {
             Id = Guid.NewGuid(),
             ExpiryYear = _random.Next(2023, 2030),
@@ -80,7 +80,7 @@ public class PaymentsControllerTests
 
         // Act
         var response = await _apiClient.GetAsync($"/api/Payments/{payment.Id}");
-        var paymentResponse = await response.Content.ReadFromJsonAsync<PostPaymentResponse>();
+        var paymentResponse = await response.Content.ReadFromJsonAsync<PaymentResponse>();
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -148,7 +148,7 @@ public class PaymentsControllerTests
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var paymentResponse = await response.Content.ReadFromJsonAsync<PostPaymentResponse>();
+        var paymentResponse = await response.Content.ReadFromJsonAsync<PaymentResponse>();
         Assert.NotNull(paymentResponse);
         Assert.Equal(PaymentStatus.Authorized, paymentResponse.Status);
         Assert.NotEqual(Guid.Empty, paymentResponse.Id);
@@ -190,7 +190,7 @@ public class PaymentsControllerTests
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var paymentResponse = await response.Content.ReadFromJsonAsync<PostPaymentResponse>();
+        var paymentResponse = await response.Content.ReadFromJsonAsync<PaymentResponse>();
         Assert.NotNull(paymentResponse);
         Assert.Equal(PaymentStatus.Declined, paymentResponse.Status);
         Assert.NotEqual(Guid.Empty, paymentResponse.Id);
