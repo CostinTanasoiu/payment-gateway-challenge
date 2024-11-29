@@ -88,10 +88,10 @@ In your terminal, navigate to the project's root directory.
 
 ```
 # list the unit tests:
-dotnet test test/PaymentGateway.Api.Tests
+dotnet test --list-tests test/PaymentGateway.Api.Tests
 
 # run all the unit tests:
-dotnet test --list-tests test/PaymentGateway.Api.Tests
+dotnet test test/PaymentGateway.Api.Tests
 ```
 
 ### Integration Testing
