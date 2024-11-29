@@ -4,7 +4,7 @@ using PaymentGateway.Api.Models.Responses;
 
 namespace PaymentGateway.Api.Helpers
 {
-    public class ValidationHelper
+    public static class ValidationHelper
     {
         /// <summary>
         /// Generates a nicely formatted validation error messages to return as part of an API response.

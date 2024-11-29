@@ -76,7 +76,7 @@ public class PaymentsController : Controller
             {
                 Id = Guid.NewGuid(),
                 Amount = request.Amount,
-                CardNumberLastFour = request.CardNumber.Substring(request.CardNumber.Length - 4, 4),
+                CardNumberLastFour = PaymentCardHelper.MaskCardNumber(request.CardNumber),
                 Currency = request.Currency,
                 ExpiryMonth = request.ExpiryMonth,
                 ExpiryYear = request.ExpiryYear,

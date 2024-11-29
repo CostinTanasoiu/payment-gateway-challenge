@@ -63,7 +63,7 @@ public class PaymentsControllerTests
 
     #region Testing GET Action
 
-    [Fact]
+    [Fact(DisplayName = "Retrieves a payment successfully")]
     public async Task RetrievesAPaymentSuccessfully()
     {
         // Arrange
@@ -88,7 +88,7 @@ public class PaymentsControllerTests
         Assert.NotNull(paymentResponse);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Returns 404 if payment not found")]
     public async Task Returns404IfPaymentNotFound()
     {
         // Arrange
@@ -104,7 +104,7 @@ public class PaymentsControllerTests
 
     #region Testing POST Action
 
-    [Theory]
+    [Theory(DisplayName = "Processes and authorizes payment")]
     [InlineData("5555555555554444", 1, 2030, "123", 25000, "GBP", "4444")]
     [InlineData("5105105105105100", 2, 2031, "002", 100, "GBP", "5100")]
     [InlineData("4111111111111111", 3, 2032, "5000", 15000, "EUR", "1111")]
@@ -169,7 +169,7 @@ public class PaymentsControllerTests
         Assert.Equivalent(paymentResponse, repoPayment);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Processes and declines payment")]
     public async Task PostPaymentAsync_Declined()
     {
         // Arrange
@@ -207,7 +207,7 @@ public class PaymentsControllerTests
         Assert.Equal(PaymentStatus.Declined, repoPayment.Status);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Payment with invalid params rejected")]
     [InlineData("Small card number", "5445", 1, 2030, "123", 25000, "GBP")]
     [InlineData("Large card number", "54458927498324982734928374928743", 1, 2030, "123", 25000, "GBP")]
     [InlineData("Empty card number", "", 1, 2030, "123", 25000, "GBP")]
@@ -255,7 +255,7 @@ public class PaymentsControllerTests
         await _acquiringBankServiceMock.DidNotReceive().ProcessPaymentAsync(Arg.Any<BankPaymentRequest>());
     }
 
-    [Fact]
+    [Fact(DisplayName = "Payment with past expiration date rejected")]
     public async Task PostPaymentAsync_RejectedForPastExpirationDate()
     {
         // The expiry date is one month in the past.
@@ -287,7 +287,7 @@ public class PaymentsControllerTests
         await _acquiringBankServiceMock.DidNotReceive().ProcessPaymentAsync(Arg.Any<BankPaymentRequest>());
     }
 
-    [Fact]
+    [Fact(DisplayName = "Payment processing fails when bank throws error")]
     public async Task PostPaymentAsync_FailsWhenBankThrowsError()
     {
         // Arrange
