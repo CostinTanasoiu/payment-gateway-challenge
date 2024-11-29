@@ -7,7 +7,6 @@ using PaymentGateway.Api.Models;
 using PaymentGateway.Api.Models.Requests;
 using PaymentGateway.Api.Models.Responses;
 using PaymentGateway.Api.Services;
-using PaymentGateway.Api.Validation;
 
 namespace PaymentGateway.Api.Controllers;
 
@@ -15,7 +14,7 @@ namespace PaymentGateway.Api.Controllers;
 [ApiController]
 public class PaymentsController : Controller
 {
-    private readonly ILogger<PaymentsController> _logger;
+    private readonly ILogger _logger;
     private readonly IValidator<PostPaymentRequest> _requestValidator;
     private readonly IPaymentsRepository _paymentsRepository;
     private readonly IAcquiringBankService _acquiringBankService;

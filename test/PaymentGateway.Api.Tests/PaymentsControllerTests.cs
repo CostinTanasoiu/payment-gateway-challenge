@@ -25,8 +25,6 @@ public class PaymentsControllerTests
 {
     private readonly HttpClient _apiClient;
     
-    private readonly PaymentsController _paymentsController;
-
     private readonly IValidator<PostPaymentRequest> _validator = new PaymentRequestValidator();
     private readonly IPaymentsRepository _paymentsRepository = new PaymentsRepository();
 
@@ -41,6 +39,7 @@ public class PaymentsControllerTests
         
         _apiClient = webApplicationFactory.WithWebHostBuilder(builder =>
             builder.ConfigureServices(services => ((ServiceCollection)services)
+                .AddSingleton(_loggerMock)
                 .AddSingleton(_validator)
                 .AddSingleton(_paymentsRepository)
                 .AddSingleton(_acquiringBankServiceMock)))
