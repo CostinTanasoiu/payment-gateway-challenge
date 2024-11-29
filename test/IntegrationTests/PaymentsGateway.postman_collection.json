@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "5b10c28e-f1a8-4110-a752-87288d132843",
+		"name": "PaymentsGateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "569494"
+	},
+	"item": [
+		{
+			"name": "Payment Authorized",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Location\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"payment_authorized_id\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cardNumber\": \"2222405343248877\",\r\n  \"expiryMonth\": 4,\r\n  \"expiryYear\": 2025,\r\n  \"currency\": \"GBP\",\r\n  \"amount\": 100,\r\n  \"cvv\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7092/api/payments",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Declined",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Location\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"payment_declined_id\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cardNumber\": \"2222405343248112\",\r\n  \"expiryMonth\": 1,\r\n  \"expiryYear\": 2026,\r\n  \"currency\": \"USD\",\r\n  \"amount\": 60000,\r\n  \"cvv\": \"456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7092/api/payments",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Rejected (invalid)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location header is not present\", function () {\r",
+							"    pm.response.to.not.have.header(\"Location\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cardNumber\": \"2244\",\r\n  \"expiryMonth\": -1,\r\n  \"expiryYear\": 2020,\r\n  \"currency\": \"GBP\",\r\n  \"amount\": 100,\r\n  \"cvv\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7092/api/payments",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cardNumber\": \"6011000990139424\",\r\n  \"expiryMonth\": 4,\r\n  \"expiryYear\": 2025,\r\n  \"currency\": \"GBP\",\r\n  \"amount\": 100,\r\n  \"cvv\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7092/api/payments",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Authorized Payment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7092/api/payments/{{payment_authorized_id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments",
+						"{{payment_authorized_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Declined Payment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7092/api/payments/{{payment_declined_id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments",
+						"{{payment_declined_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7092/api/payments/c39c9ad7-2123-444d-bdaa-fab2d5f887e6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7092",
+					"path": [
+						"api",
+						"payments",
+						"c39c9ad7-2123-444d-bdaa-fab2d5f887e6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "payment_authorized_id",
+			"value": ""
+		},
+		{
+			"key": "payment_declined_id",
+			"value": ""
+		}
+	]
+}
